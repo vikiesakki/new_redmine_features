@@ -5,7 +5,8 @@ Redmine::Plugin.register :new_features do
   version '0.0.1'
   Redmine::WikiFormatting::Macros.register do
     macro :timelog_table do |obj,args|
-	    project = obj.issue.project
+	    return '' if obj.blank?
+	    project = obj.is_a?(Issue) ? obj.project : obj.issue.project
 	    activity = TimeEntryActivity.where(name: 'Internal training').first
 	    time_entries = project.time_entries.where.not(activity_id: activity.try(:id)).group_by(&:user)
       html = "<table><th>User Name</th><th>Issue</th><th>Title</th><th>Total time</th>"
