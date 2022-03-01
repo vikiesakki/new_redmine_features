@@ -20,7 +20,7 @@ Redmine::Plugin.register :new_features do
       end
       x_time = Time.now - args.first.to_i.days
 	    activity = TimeEntryActivity.where(name: 'Internal training').first
-	    time_entries = project.time_entries.where("created_on >= ? ", x_time).where.not(activity_id: activity.try(:id)).group_by(&:user)
+	    time_entries = project.time_entries.where("spent_on >= ? ", x_time).where.not(activity_id: activity.try(:id)).group_by(&:user)
       html = "<table><th>User Name</th><th>Issue</th><th>Title</th><th>Total time</th>"
       time_entries.each do |user, entries|
 	      entry_group = entries.group_by(&:issue)
