@@ -3,6 +3,7 @@ Redmine::Plugin.register :new_features do
   author 'Author name'
   description 'This is a plugin for Redmine'
   version '0.0.1'
+  require 'redmine_features_project_controller_patch'
   Redmine::WikiFormatting::Macros.register do
     macro :timelog_table do |obj,args|
       if obj.blank?
