@@ -19,7 +19,8 @@ Redmine::Plugin.register :new_features do
       else
         return ''
       end
-      x_time = Time.now - args.first.to_i.days
+      x_day = args.second.present? ? Date.strptime(args.second,'%d-%m-%y') : Time.new
+      x_time = x_day - args.first.to_i.days
 	    activity = TimeEntryActivity.where(name: 'Internal training').first
 	    time_entries = project.time_entries.where("spent_on >= ? ", x_time).where.not(activity_id: activity.try(:id)).group_by(&:user)
       html = "<table><th>User Name</th><th>Issue</th><th>Title</th><th>Total time</th>"
