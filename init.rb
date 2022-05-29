@@ -20,7 +20,11 @@ Redmine::Plugin.register :new_features do
         return ''
       end
       x_day = args.second.present? ? Date.strptime(args.second,'%d-%m-%Y') : Time.new
-      x_time = x_day - args.first.to_i.days
+      if args.first.include? "-"
+	      x_time =  Date.strptime(args.first,'%d-%m-%Y')
+      else
+	      x_time = x_day - args.first.to_i.days
+      end
 	    activity = TimeEntryActivity.where(name: 'Internal training').first
 	    time_entries = project.time_entries.where("spent_on >= ? AND spent_on <= ? ", x_time,x_day).where.not(activity_id: activity.try(:id))
       user_entries = time_entries.group_by(&:user)
