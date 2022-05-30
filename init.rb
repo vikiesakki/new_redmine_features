@@ -19,8 +19,10 @@ Redmine::Plugin.register :new_features do
       else
         return ''
       end
-      x_day = args.second.present? ? Date.strptime(args.second,'%d-%m-%Y') : Time.new
-      if args.first.include? "-"
+      x_day = args.second.present? ? Date.strptime(args.second,'%d-%m-%Y') : Time.new.to_date
+      if args.first.blank?
+	      x_time = x_day - 7.days
+      elsif args.first.include? "-"
 	      x_time =  Date.strptime(args.first,'%d-%m-%Y')
       else
 	      x_time = x_day - args.first.to_i.days
